@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using Bulky.Models.Models;
 
-namespace bulkyWebBBG.Controllers;
-
+namespace bulkyWebBBG.Areas.Customer.Controllers;
+[Area("Customer")]
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;

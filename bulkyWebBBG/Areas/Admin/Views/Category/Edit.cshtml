@@ -4,7 +4,7 @@
     <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white p-4"> Category Delete</h2>
+                <h2 class="text-white p-4"> Category Edit</h2>
             </div>
         </div>
     </div>
@@ -18,14 +18,14 @@
                 <div asp-validation-summary="All"></div>
 
                 <div class=" py-2 col-12">
-                    <input asp-for="Name" disabled class="form-control border-0 shadow" />
+                    <input asp-for="Name" class="form-control border-0 shadow" />
                     <label asp-for="Name" class="ms-2"></label>
 
                     <span asp-validation-for="Name" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3 row">
-                    <input asp-for="DisplayOrder" disabled class="form-control border-0 shadow" />
+                    <input asp-for="DisplayOrder" class="form-control border-0 shadow" />
                     <label asp-for="DisplayOrder" class="ms-2"></label>
 
                     <span asp-validation-for="DisplayOrder" class="text-danger"></span>
@@ -33,10 +33,10 @@
 
                 <div class="row">
                     <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-danger form-control">Delete</button>
+                        <button type="submit" class="btn btn-primary form-control">Edit</button>
                     </div>
                     <div class="col-6 col-md-3">
-                        <a asp-controller="Category" asp-action="Index" class="btn btn-outline-primary form-control">Back To List</a>
+                        <a asp-area="Admin" asp-controller="Category" asp-action="Index" class="btn btn-outline-primary form-control">Back To List</a>
                     </div>
                 </div>
 
@@ -46,3 +46,12 @@
 
 
 </div>
+
+@section Scripts {
+
+    @{
+        //per usare una partial view legata a scrpts
+        <partial name="_ValidationScriptsPartial" />
+        //non script partial possono essere messe direttamente nel cshtml
+    }
+}
