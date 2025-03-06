@@ -14,5 +14,6 @@ namespace Bulky.DataAcces.Repository.IGenericRepository
         void Remove(T obj);
         void RemoveRange(IEnumerable<T> obj);
         T? Create(T obj);
+
     }
 }
