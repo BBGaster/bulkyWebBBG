@@ -1,8 +1,9 @@
-﻿using bulkyWebBBG.Models;
+﻿using Bulky.Models.Models;
+
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 
-namespace bulkyWebBBG.Data
+namespace Bulky.DataAcces.Data
 {
     public class ApplicationDbContext : DbContext
     {

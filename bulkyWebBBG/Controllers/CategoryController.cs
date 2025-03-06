@@ -1,6 +1,7 @@
-﻿using bulkyWebBBG.Data;
-using bulkyWebBBG.Migrations;
-using bulkyWebBBG.Models;
+﻿using Bulky.DataAcces.Repository;
+using Bulky.DataAcces.Repository.IRepository;
+using Bulky.Models.Models;
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,14 +9,14 @@ namespace bulkyWebBBG.Controllers
 {
     public class CategoryController : Controller
     {
-        private readonly ApplicationDbContext _db;
-        public CategoryController(ApplicationDbContext db)
+        private readonly ICategoryRepository _categoryRepo;
+        public CategoryController(ICategoryRepository db)
         {
-            _db = db ;
+            _categoryRepo = db ;
         }
         public IActionResult Index()
         {
-           List<Category> obgCategoryList = _db.Categories.ToList();
+           List<Category> obgCategoryList = _categoryRepo.GetAll().ToList();
             return View(obgCategoryList);
         }
         public IActionResult Create()
@@ -34,9 +35,9 @@ namespace bulkyWebBBG.Controllers
             {
                 ModelState.AddModelError("", "you found me");
             }
-            if (ModelState.IsValid) { 
-            _db.Categories.Add(obj);
-            _db.SaveChanges();
+            if (ModelState.IsValid) {
+                _categoryRepo.Create(obj);
+                _categoryRepo.save();
                 TempData["success"] = "Category created";
             //esplicitare il controller può essere evitato nello stesso controller
             return RedirectToAction("Index", "Category");
@@ -51,7 +52,7 @@ namespace bulkyWebBBG.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _db.Categories.Find(Id);
+            Category? categoryFromDb = _categoryRepo.GetFirstOrDefault(u=> u.Id == Id);
             // Category? categoryFromDb = _db.Categories.FirstOrDefault(u=>u.Id == Id);
             // Category? categoryFromDb = _db.Categories.Where(u=>u.Id == Id).FirstOrDefault();
             if (categoryFromDb == null)
@@ -69,8 +70,8 @@ namespace bulkyWebBBG.Controllers
             
             if (ModelState.IsValid)
             {
-                _db.Categories.Update(obj);
-                _db.SaveChanges();
+                _categoryRepo.Update(obj);
+                _categoryRepo.save();
                 TempData["success"] = "Category Edited";
                 //esplicitare il controller può essere evitato nello stesso controller
                 return RedirectToAction("Index", "Category");
@@ -85,7 +86,7 @@ namespace bulkyWebBBG.Controllers
             {
                 return NotFound();
             }
-            Category? categoryFromDb = _db.Categories.Find(Id);
+            Category? categoryFromDb = _categoryRepo.GetFirstOrDefault(u => u.Id == Id);
             if (categoryFromDb == null)
             {
                 return NotFound();
@@ -97,13 +98,13 @@ namespace bulkyWebBBG.Controllers
         [HttpPost,ActionName("Delete")]
         public IActionResult DeletePost(int? Id)
         {
-            Category? obj = _db.Categories.Find(Id);
+            Category? obj = _categoryRepo.GetFirstOrDefault(u => u.Id == Id);
             if (obj.Name == null)
             {
                 return NotFound();
             }
-            _db.Categories.Remove(obj);
-            _db.SaveChanges();
+            _categoryRepo.Remove(obj);
+            _categoryRepo.save();
             TempData["success"] = "Category Deleted";
             return RedirectToAction("Index", "Category");
           

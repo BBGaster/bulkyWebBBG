@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using bulkyWebBBG.Models;
+
+using Bulky.Models.Models;
 
 namespace bulkyWebBBG.Controllers;
 
