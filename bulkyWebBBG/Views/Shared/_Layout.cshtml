@@ -7,9 +7,11 @@
     <title>@ViewData["Title"] - bulkyWebBBG</title>
     <link href="~/lib/bootstrap/dist/css/bootstraptemplate.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/bulkyWebBBG.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~//cdn.datatables.net/2.2.2/css/dataTables.dataTables.min.css"  />
+    
 </head>
 <body>
     <header>
@@ -34,6 +36,8 @@
                             </a>
                             <ul class="dropdown-menu ">
                                 <a class="dropdown-item"  asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
+                                <a class="dropdown-item" asp-area="Admin" asp-controller="Product" asp-action="Index">Product</a>
+
                                 
                                 <li><hr class="dropdown-divider"></li>
                                 
@@ -53,14 +57,16 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
+    <footer class="border-top footer bg-primary text-muted">
+        <div class="container text-center">
             &copy; 2025 - bulkyWebBBG - <a asp-area="Customer" asp-controller="Home" asp-action="Privacy">Privacy <i class="bi bi-activity"></i> </a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.tiny.cloud/1/zj3eq75f41xqxy63aytl77t7mj35zi668girfem2s7393590/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="//cdn.datatables.net/2.2.2/js/dataTables.min.js" referrerpolicy="origin"></script>
         @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

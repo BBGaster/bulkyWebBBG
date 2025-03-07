@@ -1,0 +1,98 @@
+﻿@using Bulky.Models.Models
+@model Product //non serve metterlo nel controller crea automaticamente un nuovo oggetto
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient m-lg-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white p-4"> Product Delete</h2>
+            </div>
+        </div>
+    </div>
+    <div class="card-body p-4">
+        <form method="post" class="row p-4">
+            <input asp-for="Id" hidden class="form-control border-0 shadow" />
+            <div class="border p-3">
+
+
+
+                <div asp-validation-summary="All"></div>
+
+                <div class=" py-2 col-12">
+                    <input asp-for="Title" disabled class="form-control border-0 shadow" />
+                    <label asp-for="Title"  class="ms-2"></label>
+
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
+                <div class="py-2 col-12">
+                    <textarea asp-for="Description" disabled class="form-control border-0 shadow" ></textarea>
+                    <label asp-for="Description"  class="ms-2"></label>
+
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class=" py-2 col-12">
+                    <input asp-for="ISBN" disabled class="form-control border-0 shadow" />
+                    <label asp-for="ISBN"  class="ms-2"></label>
+
+                    <span asp-validation-for="ISBN" class="text-danger"></span>
+                </div>
+
+
+                <div class=" py-2 col-12">
+                    <input asp-for="Author" disabled class="form-control border-0 shadow" />
+                    <label asp-for="Author"  class="ms-2"></label>
+
+                    <span asp-validation-for="Author" class="text-danger"></span>
+                </div>
+
+
+                <div class=" py-2 col-12">
+                    <input asp-for="ListPrice" disabled class="form-control border-0 shadow" />
+                    <label asp-for="ListPrice"  class="ms-2"></label>
+
+                    <span asp-validation-for="ListPrice" class="text-danger"></span>
+                </div>
+
+
+                <div class=" py-2 col-12">
+                    <input asp-for="ListPrice50" disabled class="form-control border-0 shadow" />
+                    <label asp-for="ListPrice50"  class="ms-2"></label>
+
+                    <span asp-validation-for="ListPrice50" class="text-danger"></span>
+                </div>
+
+
+                <div class=" py-2 col-12">
+                    <input asp-for="ListPrice100" disabled class="form-control border-0 shadow" />
+                    <label asp-for="ListPrice100"  class="ms-2"></label>
+
+                    <span asp-validation-for="ListPrice100" class="text-danger"></span>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-danger form-control">Delete</button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-area="Admin" asp-controller="Product" asp-action="Index" class="btn btn-outline-primary form-control">Back To List</a>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+@section Scripts {
+
+    @{
+        //per usare una partial view legata a scrpts
+        <partial name="_ValidationScriptsPartial" />
+        //non script partial possono essere messe direttamente nel cshtml
+    }
+}

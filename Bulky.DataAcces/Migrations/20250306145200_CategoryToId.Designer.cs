@@ -3,6 +3,7 @@ using Bulky.DataAcces.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bulky.DataAcces.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250306145200_CategoryToId")]
+    partial class CategoryToId
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -85,10 +88,6 @@ namespace Bulky.DataAcces.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<double>("ListPrice")
                         .HasColumnType("float");
 
@@ -116,7 +115,6 @@ namespace Bulky.DataAcces.Migrations
                             CategoryId = 1,
                             Description = "Un libro di merda",
                             ISBN = "1234567890123",
-                            ImageUrl = "",
                             ListPrice = 10.5,
                             ListPrice100 = 8.0,
                             ListPrice50 = 9.9900000000000002,
@@ -129,7 +127,6 @@ namespace Bulky.DataAcces.Migrations
                             CategoryId = 2,
                             Description = "Un altro libro di merda",
                             ISBN = "32109876543210",
-                            ImageUrl = "",
                             ListPrice = 100.0,
                             ListPrice100 = 8.0,
                             ListPrice50 = 12.0,
@@ -142,7 +139,6 @@ namespace Bulky.DataAcces.Migrations
                             CategoryId = 3,
                             Description = "Che ne sà la disney",
                             ISBN = "5234687512345",
-                            ImageUrl = "",
                             ListPrice = 11.0,
                             ListPrice100 = 6.0,
                             ListPrice50 = 8.0,
