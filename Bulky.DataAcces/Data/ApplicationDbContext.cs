@@ -1,11 +1,12 @@
 ﻿using Bulky.Models.Models;
-
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 
 namespace Bulky.DataAcces.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         // costruttore 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
@@ -17,6 +18,8 @@ namespace Bulky.DataAcces.Data
         public DbSet<Product> products { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             //seeding category table via migration
             modelBuilder.Entity<Category>().HasData(
 

@@ -73,7 +73,7 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
                     {
                         file.CopyTo(fileStream);
                     }
-                    obj.Product.ImageUrl = @"\images\product" + fileName;
+                    obj.Product.ImageUrl = @"\images\product\" + fileName;
                 }
                 if (obj.Product.Id == 0) { 
                     _unitOfWork.Product.Create(obj.Product);
@@ -123,21 +123,21 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
             //    return View(productFromDb);
             //}
 
-            [HttpPost]
-            public IActionResult Edit(Product obj)
-            {
+            //[HttpPost]
+            //public IActionResult Edit(Product obj)
+            //{
 
-                if (ModelState.IsValid)
-                {
-                    _unitOfWork.Product.Update(obj);
-                    _unitOfWork.Save();
-                    TempData["success"] = "Product Edited";
-                    //esplicitare il controller può essere evitato nello stesso controller
-                    return RedirectToAction("Index", "Product");
-                }
-                return View();
+            //    if (ModelState.IsValid)
+            //    {
+            //        _unitOfWork.Product.Update(obj);
+            //        _unitOfWork.Save();
+            //        TempData["success"] = "Product Edited";
+            //        //esplicitare il controller può essere evitato nello stesso controller
+            //        return RedirectToAction("Index", "Product");
+            //    }
+            //    return View();
 
-            }
+            //}
 
             //public IActionResult Delete(int? Id)
             //{
