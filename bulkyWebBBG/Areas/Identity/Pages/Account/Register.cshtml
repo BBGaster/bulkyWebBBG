@@ -14,38 +14,67 @@
     </div>
 
 <div class="card-body p-4 pb-2">
-<div class="row pt-4">
+<div class="row pt-3">
     <div class="col-md-12">
-        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h2>Create a new account.</h2>
-            <hr />
+        <form id="registerForm" class="row" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h3 class="border-bottom pb-3 mb-4 text-secondary text-center">Create a new account.</h3>
+           
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
 
-            <div class="form-floating mb-3">
+            <div class="form-floating mb-3 col-md-12">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
-                <label asp-for="Input.Email">Email</label>
+                <label class="ms-2 text-muted" asp-for="Input.Email">Email</label>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
+                <div class="form-floating mb-3 col-md-6">
                 <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.Password">Password</label>
+                <label class="ms-2 text-muted" asp-for="Input.Password">Password</label>
                 <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
+                <div class="form-floating mb-3 col-md-6">
                 <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
-                <label asp-for="Input.ConfirmPassword">Confirm Password</label>
+                <label class="ms-2 text-muted" asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <div class="form-floating mb-3">
+           
+            <div class="form-floating mb-3 col-md-6">
+                <input asp-for="Input.StreetAdress" class="form-control" placeholder="Street Adress" />
+                <label class="ms-2 text-muted" asp-for="Input.StreetAdress">StreetAdress</label>
+                <span asp-validation-for="Input.StreetAdress" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input asp-for="Input.City" class="form-control" placeholder="City" />
+                <label class="ms-2 text-muted" asp-for="Input.City">City</label>
+                <span asp-validation-for="Input.City" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input asp-for="Input.State" class="form-control" placeholder="State" />
+                <label class="ms-2 text-muted" asp-for="Input.State">State</label>
+                <span asp-validation-for="Input.State" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input asp-for="Input.PostalCode" class="form-control" placeholder="PostalCode" />
+                <label class="ms-2 text-muted" asp-for="Input.PostalCode">PostalCode</label>
+                <span asp-validation-for="Input.PostalCode" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3 col-md-6">
+                <input asp-for="Input.PhoneNumber" class="form-control" placeholder="PhoneNumber" />
+                <label class="ms-2 text-muted" asp-for="Input.PhoneNumber">PhoneNumber</label>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+                <div class="form-floating mb-3 col-md-6">
                 <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" >
                     <option disabled selected>-Select Role-</option>
                 </select>
             </div>
-            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <div class="col-12">
+                <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            </div>
         </form>
     </div>
     <div class="col-md-12">
         <section>
+            <p class="divider-text d-flex pt-3">or</p>
             <h3>Use another service to register.</h3>
             <hr />
             @{

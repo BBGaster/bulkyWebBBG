@@ -31,9 +31,9 @@ namespace Bulky.DataAcces.Data
 
             modelBuilder.Entity<Product>().HasData(
 
-                new Product { Id = 1, Title = "Dev Manual", Author = "Giovanni Rana", Description = "Un libro di merda", ISBN = "1234567890123", ListPrice = 10.50, ListPrice50 = 9.99, ListPrice100 = 8, CategoryId =1, ImageUrl="" },
-                new Product { Id = 2, Title = "Tante Parole", Author = "Beetlejuice", Description = "Un altro libro di merda", ISBN = "32109876543210", ListPrice = 100, ListPrice50 = 12, ListPrice100 = 8, CategoryId = 2, ImageUrl = "" },
-                new Product { Id = 3, Title = "La Storia dei Romanov", Author = "Anastasia", Description = "Che ne sà la disney", ISBN = "5234687512345", ListPrice = 11, ListPrice50 = 8, ListPrice100 = 6, CategoryId = 3, ImageUrl = "" }
+                new Product { Id = 1, Title = "Dev Manual", Author = "Giovanni Rana", Description = "Un libro di merda", ISBN = "1234567890123", Price = 13.50, ListPrice = 10.50, ListPrice50 = 9.99, ListPrice100 = 8, CategoryId =1, ImageUrl="" },
+                new Product { Id = 2, Title = "Tante Parole", Author = "Beetlejuice", Description = "Un altro libro di merda", ISBN = "32109876543210", Price = 130.50, ListPrice = 100, ListPrice50 = 12, ListPrice100 = 8, CategoryId = 2, ImageUrl = "" },
+                new Product { Id = 3, Title = "La Storia dei Romanov", Author = "Anastasia", Description = "Che ne sà la disney", ISBN = "5234687512345", Price = 13.50, ListPrice = 11, ListPrice50 = 8, ListPrice100 = 6, CategoryId = 3, ImageUrl = "" }
 
                 );
         }

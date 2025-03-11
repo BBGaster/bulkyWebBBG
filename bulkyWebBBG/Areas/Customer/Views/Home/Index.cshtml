@@ -1,7 +1,7 @@
 ﻿@using Bulky.Models.Models
 @model IEnumerable<Product>
 
-    <div>
+    <div class="row pb-3">
         @foreach(var product in Model)
         {
         <div class="col-lg-3 col-sm-6">
@@ -15,7 +15,7 @@
 
                         </div>
                         <div class="pl-1">
-                            <p class="  text-dark text-opacity-75  text-center">list price: @product.ListPrice.ToString()</p>
+                            <p class="  text-dark text-opacity-75  text-center">list price: @product.Price.ToString()</p>
                         </div>
                         <div class="pl-1">
                             <p class="  text-dark text-opacity-75  text-center">as low as: @product.ListPrice100.ToString()</p>
