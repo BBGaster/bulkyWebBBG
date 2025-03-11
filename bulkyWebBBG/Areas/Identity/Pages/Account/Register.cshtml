@@ -36,7 +36,11 @@
                 <label class="ms-2 text-muted" asp-for="Input.ConfirmPassword">Confirm Password</label>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-           
+           <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="Input.Name" class="form-control" placeholder="Name" />
+                        <label class="ms-2 text-muted" asp-for="Input.Name">Name</label>
+                        <span asp-validation-for="Input.Name" class="text-danger"></span>
+            </div>
             <div class="form-floating mb-3 col-md-6">
                 <input asp-for="Input.StreetAdress" class="form-control" placeholder="Street Adress" />
                 <label class="ms-2 text-muted" asp-for="Input.StreetAdress">StreetAdress</label>
@@ -62,7 +66,7 @@
                 <label class="ms-2 text-muted" asp-for="Input.PhoneNumber">PhoneNumber</label>
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
-                <div class="form-floating mb-3 col-md-6">
+                <div class="form-floating mb-3 col-md-12">
                 <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select" >
                     <option disabled selected>-Select Role-</option>
                 </select>
