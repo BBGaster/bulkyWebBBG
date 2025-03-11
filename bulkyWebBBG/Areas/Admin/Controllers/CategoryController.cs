@@ -1,12 +1,15 @@
 ﻿using Bulky.DataAcces.Repository;
 using Bulky.DataAcces.Repository.IRepository;
 using Bulky.Models.Models;
+using Bulky.Utility;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace bulkyWebBBG.Areas.Admin.Controllers
 {
-    [Area("Admin")]
+    [Area("Admin")] 
+    [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
