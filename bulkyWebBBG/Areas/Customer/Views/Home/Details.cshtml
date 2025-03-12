@@ -1,9 +1,9 @@
 ﻿@using Bulky.Models.Models
-@model ShoppingCart
+<!-- model Product -->
+@model ShoppingCart //Perchè contiene il prodotto e il count.
 
 <form method="post">
-    <input asp-for="@Model.Product.Id" hidden />
-    <input asp-for="@Model.Id" hidden  value="0" />
+    <input hidden asp-for="ProductId" />
     <div class="card shadow border-0 mt-4">
         <div class="card-header bg-secondary bg-gradient text-light py-4">
             <div class="row">
@@ -24,7 +24,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
-                        <img src=@Model.Product.ImageUrl width="100%" class="rounded" />
+                        <img src="@Model.Product.ImageUrl.ToString()" width="100%" class="rounded" />
                     </div>
                     <div class="col-12 col-lg-6 offset-lg-1">
 
@@ -38,7 +38,7 @@
                             <h6 class="text-dark text-opacity-50  pb-2">
                                 List Price:
                                 <span class="text-decoration-line-through">
-                                    @Model.Product.ListPrice.ToString("c");
+                                    @Model.Product.Price.ToString("c")
                                 </span>
                             </h6>
                         </div>
@@ -61,17 +61,17 @@
                                 <div>Price</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.ListPrice</div>
+                                <div>@Model.Product.ListPrice.ToString("c")</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.ListPrice50</div>
+                                <div>@Model.Product.ListPrice50.ToString("c")</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.ListPrice100</div>
+                                <div>@Model.Product.ListPrice100.ToString("c")</div>
                             </div>
                         </div>
                         <div class="row pl-2 my-3">
-                            <p class="text-secondary lh-sm">@Html.Raw(@Model.Product.Description)</p>
+                            <p class="text-secondary lh-sm" @Html.Raw(Model.Product.Description)</p> <!-- Html.Raw Pulisce il testo-->
                         </div>
                         <div class="row pl-2 mb-3">
                             <div class="col-md-4">
@@ -80,17 +80,15 @@
                                           id="inputGroup-sizing-default">
                                         Count
                                     </span>
-                                    <input asp-for="Count" type="number"  class="form-control text-end"
-                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-
+                                    <input asp-for="Count" type="number" value="1" class="form-control text-end" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" /> <!--Ci serve il modello per il conteggio (ShoppingCart)-->
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-12 col-md-6 pb-1">
-                                <button type="submit" 
+                                <button type="submit"
                                         class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">
-                                    Add to Cart 
+                                    Add to Cart
                                 </button>
                             </div>
                         </div>

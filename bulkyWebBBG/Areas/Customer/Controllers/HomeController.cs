@@ -24,13 +24,14 @@ public class HomeController : Controller
         IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
         return View(productList);
     }
-    public IActionResult Details(int id)
+    public IActionResult Details(int productId)
     {
-        Product product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id, includeProperties: "Category");
+        Product product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: "Category");
         ShoppingCart cartObj = new ShoppingCart()
         {
             Product = product,
-            ProductId = product.Id
+            Count = 1,
+            ProductId = productId
         };
         return View(cartObj);
     }
@@ -38,12 +39,11 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult Details(ShoppingCart obj)
     {
+        
         var claimsIdentity = (ClaimsIdentity)User.Identity;
         var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
         obj.ApplicationUserId = claim;
-        obj.ProductId = obj.Product.Id;
-        obj.Product = null;
-
+        
         ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
             u => u.ApplicationUserId == obj.ApplicationUserId && u.ProductId == obj.ProductId
         );
