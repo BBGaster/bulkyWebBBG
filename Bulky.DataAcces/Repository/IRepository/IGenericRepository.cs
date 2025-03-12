@@ -9,7 +9,7 @@ namespace Bulky.DataAcces.Repository.IGenericRepository
 {
     public interface IGenericRepository<T> where T : class
     {
-        IEnumerable<T> GetAll(string? includeProperties = null, bool tracked = false);
+        IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null, bool tracked = false);
         T? GetFirstOrDefault(Expression<Func<T,bool>> filter, string? includeProperties = null, bool tracked= false);
         void Remove(T obj);
         void RemoveRange(IEnumerable<T> obj);

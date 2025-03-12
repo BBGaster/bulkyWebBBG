@@ -21,5 +21,6 @@ namespace Bulky.Models.Models
         public string? PostalCode { get; set; }
         public string? PhoneNumber { get; set; }
         
+        
     }
 }
