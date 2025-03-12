@@ -27,7 +27,7 @@ namespace Bulky.DataAcces.GenericRepository
             return obj;
         }
 
-        public IEnumerable<T> GetAll( string? includeProperties = null)
+        public IEnumerable<T> GetAll( string? includeProperties = null, bool tracked = false)
         {
             IQueryable<T> query = dbset;
             if (!string.IsNullOrEmpty(includeProperties))
@@ -40,10 +40,20 @@ namespace Bulky.DataAcces.GenericRepository
             return query.ToList();
         }
 
-        public T? GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null)
+        public T? GetFirstOrDefault(Expression<Func<T, bool>> filter, string? includeProperties = null, bool tracked = false)
         {
-            IQueryable<T> query = dbset;
-            query = query.Where(filter);
+            IQueryable<T> query;
+
+            if (tracked)
+            {
+                query = dbset;
+            }
+            else
+            {
+                query = dbset.AsNoTracking();
+            }
+
+                query = query.Where(filter);
             if (!string.IsNullOrEmpty(includeProperties))
             {
                 foreach (var includeProp in includeProperties.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))

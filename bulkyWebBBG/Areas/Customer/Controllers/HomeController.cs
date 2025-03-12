@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 using Bulky.Models.Models;
 using Bulky.DataAcces.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace bulkyWebBBG.Areas.Customer.Controllers;
 [Area("Customer")]
@@ -25,7 +27,39 @@ public class HomeController : Controller
     public IActionResult Details(int id)
     {
         Product product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id, includeProperties: "Category");
-        return View(product);
+        ShoppingCart cartObj = new ShoppingCart()
+        {
+            Product = product,
+            ProductId = product.Id
+        };
+        return View(cartObj);
+    }
+    [HttpPost]
+    [Authorize]
+    public IActionResult Details(ShoppingCart obj)
+    {
+        var claimsIdentity = (ClaimsIdentity)User.Identity;
+        var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+        obj.ApplicationUserId = claim;
+        obj.ProductId = obj.Product.Id;
+        obj.Product = null;
+
+        ShoppingCart cartFromDb = _unitOfWork.ShoppingCart.GetFirstOrDefault(
+            u => u.ApplicationUserId == obj.ApplicationUserId && u.ProductId == obj.ProductId
+        );
+        if (cartFromDb == null)
+        {
+            _unitOfWork.ShoppingCart.Create(obj);
+        }
+        else
+        {
+            cartFromDb.Count += obj.Count;
+            _unitOfWork.ShoppingCart.Update(cartFromDb);
+        }
+       
+        _unitOfWork.Save();
+
+        return RedirectToAction(nameof(Index));
     }
 
     public IActionResult Privacy()
