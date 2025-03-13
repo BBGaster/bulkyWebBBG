@@ -19,7 +19,7 @@ namespace Bulky.DataAcces.GenericRepository
         {
             _db = db;
             this.dbset = _db.Set<T>();
-            _db.products.Include(u => u.Category);
+            _db.Products.Include(u => u.Category);
         }
         public T? Create(T obj)
         {
