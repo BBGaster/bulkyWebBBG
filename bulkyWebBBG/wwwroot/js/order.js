@@ -1,29 +1,26 @@
 ﻿var dataTable;
 
-
 $(document).ready(function () {
     var url = window.location.search;
     if (url.includes("approved")) {
         loadDataTable("approved");
-    } else { 
-        if (url.includes("pending")) {
-            loadDataTable("pending");
-        } else { 
-            if (url.includes("completed")) {
-                loadDataTable("completed");
-            }
-            else {
-                loadDataTable("");
-            }
-        }
+    } else if (url.includes("pending")) {
+        loadDataTable("pending");
+    } else if (url.includes("inprocess")) {
+        loadDataTable("inprocess");
+    } else if (url.includes("completed")) {
+        loadDataTable("completed");
+    } else {
+        loadDataTable("");
     }
-    loadDataTable();
-});
+})
 
-function loadDataTable(){
+function loadDataTable(status){
 
 $('#tblData').DataTable({
-   "ajax": {url: '/admin/order/getall'},
+  
+        "ajax": { url: '/admin/order/getall?status=' + status },
+   
    "columns": [
 
        { data: 'id', "width": "15%" },
