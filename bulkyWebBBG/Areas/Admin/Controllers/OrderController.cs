@@ -132,7 +132,7 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
             OrderVM.OrderDetails = _unitOfWork.OrderDetail.GetAll(u => u.OrderHeaderId == OrderVM.OrderHeader.Id, includeProperties: "Products");
 
 
-            var domain = "https://localhost:7211/";
+            var domain = Request.Scheme + "://" + Request.Host.Value + "/";
             var options = new SessionCreateOptions
             {
 
