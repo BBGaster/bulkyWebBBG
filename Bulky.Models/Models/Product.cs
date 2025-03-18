@@ -38,6 +38,7 @@ namespace Bulky.Models.Models
         [Range(1, 1000)]
         public double ListPrice100 { get; set; }
         [ValidateNever]
-        public string? ImageUrl { get; set; }
+        public List<ProductImage> ProductImages { get; set; }
+
     }
 }
