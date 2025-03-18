@@ -29,12 +29,12 @@ public class HomeController : Controller
         {
             HttpContext.Session.SetString(SD.SessionShoppingCart, claim.Value);
         }
-        IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+        IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
         return View(productList);
     }
     public IActionResult Details(int productId)
     {
-        Product product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: "Category");
+        Product product = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == productId, includeProperties: "Category,ProductImages");
         ShoppingCart cartObj = new ShoppingCart()
         {
             Product = product,

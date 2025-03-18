@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace bulkyWebBBG.Areas.Admin.Controllers
 {
@@ -17,17 +18,18 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
     public class UserController : Controller
     {
     
-        private ApplicationDbContext _db;
+       
         [BindProperty]
         public UserVM UserVM { get; set; }
         private readonly UserManager<IdentityUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUnitOfWork _unitOfWork;
-        public UserController(ApplicationDbContext db, IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager )
+        public UserController( IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager  )
         {
-            _db = db;
+           
             _unitOfWork = unitOfWork;
             _userManager = userManager;
-          
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -41,8 +43,9 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
         {
             UserVM = new UserVM()
             {
-                ApplicationUser = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id),
-                RoleList = _db.Roles.Select(u => new SelectListItem
+                ApplicationUser = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id,includeProperties:"Company"),
+                RoleList = _roleManager.Roles.Select(u => new SelectListItem
+                /*_db.Roles.Select(u => new SelectListItem*/
                 {
                     Text = u.Name,
                     Value = u.Name
@@ -54,17 +57,17 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
                 })
 
             };
-
+            UserVM.ApplicationUser.Role = _userManager.GetRolesAsync(_unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == id))
+                .GetAwaiter().GetResult().FirstOrDefault();
             return View(UserVM);
         }
         [HttpPost]
         [ActionName("Permission")]
         public IActionResult PermissionPOST()
         {
-
-            string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == UserVM.ApplicationUser.Id).RoleId;
-            string oldRole = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
-            ApplicationUser tuser = _db.ApplicationUsers.FirstOrDefault(u => u.Id == UserVM.ApplicationUser.Id);
+            string oldRole = _userManager.GetRolesAsync(_unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == UserVM.ApplicationUser.Id))
+                .GetAwaiter().GetResult().FirstOrDefault();
+            ApplicationUser tuser = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == UserVM.ApplicationUser.Id);
 
             if (UserVM.ApplicationUser.Role == SD.Role_User_Comp && tuser.CompanyId != UserVM.ApplicationUser.CompanyId)
             {
@@ -73,17 +76,17 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
 
             if (!(UserVM.ApplicationUser.Role == oldRole))
             {
-                
-                if(oldRole == SD.Role_User_Comp)
+                if (oldRole == SD.Role_User_Comp)
                 {
                     tuser.CompanyId = null;
                 }
+                _unitOfWork.ApplicationUser.Update(tuser);
                 _userManager.RemoveFromRoleAsync(tuser, oldRole).GetAwaiter().GetResult();
                 _userManager.AddToRoleAsync(tuser, UserVM.ApplicationUser.Role).GetAwaiter().GetResult();
             }
             
 
-            _db.SaveChanges();
+            _unitOfWork.Save();
             return RedirectToAction("Index");
         }
 
@@ -97,15 +100,16 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<ApplicationUser> obgUserList = _db.ApplicationUsers.Include(u => u.CompanyObj).ToList();
-            var userRoles = _db.UserRoles.ToList();
-            var roles = _db.Roles.ToList();
+            List<ApplicationUser> obgUserList = _unitOfWork.ApplicationUser.GetAll(includeProperties: "Company").ToList();
+            
+            
+       
             foreach (var user in obgUserList)
             {
-                var roleId = userRoles.FirstOrDefault(u => u.UserId == user.Id).RoleId;
-                user.Role = roles.FirstOrDefault(u => u.Id == roleId).Name;
+ 
+                user.Role = _userManager.GetRolesAsync(user).GetAwaiter().GetResult().FirstOrDefault();
 
-                if (user.CompanyObj == null) { user.CompanyObj = new() { Name = "" }; }
+                if (user.Company == null) { user.Company = new() { Name = "" }; }
                 ;
             }
             return Json(new { data = obgUserList });
@@ -114,7 +118,7 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult LockUnlock([FromBody]string? Id)
         {
-            var objFromDb = _db.ApplicationUsers.FirstOrDefault(u => u.Id == Id);
+            var objFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == Id);
             if (objFromDb == null) 
             {
                 return Json(new { success = false, message = "Error While Locking/Unlocking" });
@@ -129,7 +133,8 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
                 objFromDb.LockoutEnd = DateTime.Now.AddYears(1000);
 
             }
-            _db.SaveChanges();
+            _unitOfWork.ApplicationUser.Update(objFromDb);
+            _unitOfWork.Save();
 
                 return Json(new { success = true, message = "operation succesfull" });
         }
