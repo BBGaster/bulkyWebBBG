@@ -20,11 +20,13 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
         private ApplicationDbContext _db;
         [BindProperty]
         public UserVM UserVM { get; set; }
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
-        public UserController(ApplicationDbContext db, IUnitOfWork unitOfWork)
+        public UserController(ApplicationDbContext db, IUnitOfWork unitOfWork, UserManager<IdentityUser> userManager )
         {
             _db = db;
             _unitOfWork = unitOfWork;
+            _userManager = userManager;
           
         }
 
@@ -43,7 +45,7 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
                 RoleList = _db.Roles.Select(u => new SelectListItem
                 {
                     Text = u.Name,
-                    Value = u.Id.ToString()
+                    Value = u.Name
                 }),
                 CompanyList = _unitOfWork.Company.GetAll().Select(u => new SelectListItem
                 {
@@ -59,42 +61,34 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
         [ActionName("Permission")]
         public IActionResult PermissionPOST()
         {
-            var userFromDb = _unitOfWork.ApplicationUser.GetFirstOrDefault(u => u.Id == UserVM.ApplicationUser.Id);
-      
-            
-                var userRoles = _db.UserRoles.FirstOrDefault(u => u.UserId == UserVM.ApplicationUser.Id);
-                if(userRoles != null)
-                {
-                    IdentityUserRole<string> userRole = new IdentityUserRole<string>();
-                    userRole.RoleId = UserVM.ApplicationUser.Role;
-                    userRole.UserId = UserVM.ApplicationUser.Id;
-                    _db.UserRoles.RemoveRange(userRoles);
-                    _db.UserRoles.Add(userRole);
 
-                
-                var roleCompany = _db.Roles.FirstOrDefault(u => u.Name == SD.Role_User_Comp);
-                if (UserVM.ApplicationUser.Role == roleCompany.Id && userFromDb.CompanyId != UserVM.ApplicationUser.CompanyId) 
-                {
-                    
-                    userFromDb.CompanyId = UserVM.ApplicationUser.CompanyId;
-                  _unitOfWork.ApplicationUser.Update(userFromDb);
+            string RoleID = _db.UserRoles.FirstOrDefault(u => u.UserId == UserVM.ApplicationUser.Id).RoleId;
+            string oldRole = _db.Roles.FirstOrDefault(u => u.Id == RoleID).Name;
+            ApplicationUser tuser = _db.ApplicationUsers.FirstOrDefault(u => u.Id == UserVM.ApplicationUser.Id);
 
-
-                }
-                else
-                {
-                    userFromDb.CompanyId = null;
-                    _unitOfWork.ApplicationUser.Update(userFromDb);
-
-                }
-                    _unitOfWork.Save();
-
-
-
+            if (UserVM.ApplicationUser.Role == SD.Role_User_Comp && tuser.CompanyId != UserVM.ApplicationUser.CompanyId)
+            {
+                tuser.CompanyId = UserVM.ApplicationUser.CompanyId;
             }
 
+            if (!(UserVM.ApplicationUser.Role == oldRole))
+            {
+                
+                if(oldRole == SD.Role_User_Comp)
+                {
+                    tuser.CompanyId = null;
+                }
+                _userManager.RemoveFromRoleAsync(tuser, oldRole).GetAwaiter().GetResult();
+                _userManager.AddToRoleAsync(tuser, UserVM.ApplicationUser.Role).GetAwaiter().GetResult();
+            }
+            
+
+            _db.SaveChanges();
             return RedirectToAction("Index");
         }
+
+            
+        
 
 
 
