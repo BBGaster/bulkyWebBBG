@@ -30,6 +30,7 @@ builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
     facebookOptions.AppSecret = builder.Configuration.GetSection("Facebook:AppSecret").Value; 
 });
 builder.Services.AddDistributedMemoryCache();
+
 builder.Services.AddSession(o =>
 {
     o.IdleTimeout = TimeSpan.FromMinutes(100);
@@ -40,6 +41,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.AddRazorPages();
+
 
 var app = builder.Build();
 

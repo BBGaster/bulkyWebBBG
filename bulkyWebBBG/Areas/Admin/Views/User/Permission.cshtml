@@ -1,0 +1,73 @@
+﻿@using Bulky.Utility
+@model UserVM
+
+
+
+<div class="card shadow border-0 mt-4 pb-6">
+    <div class="card-header bg-secondary bg-gradient m-lg-0 py-4">
+        <div class="row">
+            <div class="col-12 text-center">
+                
+                    <h1 class="py-2 text-white">Manage User Role</h1>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body p-4 pb-2">
+        <div class="row pt-3">
+            <div class="col-md-12">
+                <form  class="row" method="post">
+                    <input asp-for="ApplicationUser.Id" hidden />
+                    <h3 class="border-bottom pb-3 mb-4 text-secondary text-center">Create a new account.</h3>
+
+                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                    
+                    <div class="form-floating mb-3 col-md-6">
+                        <input asp-for="ApplicationUser.Name" class="form-control" placeholder="Name" />
+                        <label class="ms-2 text-muted" asp-for="ApplicationUser.Name">Name</label>
+                        <span asp-validation-for="ApplicationUser.Name" class="text-danger"></span>
+                    </div>
+
+                   
+                        <div class="form-floating mb-3 col-md-6">
+                            <select asp-for="ApplicationUser.Role" asp-items="@Model.RoleList" class="form-select">
+                                <option disabled selected>-Select Role-</option>
+                            </select>
+                        </div>
+                    
+                    <div class="form-floating mb-3 col-md-6">
+                        <select asp-for="ApplicationUser.CompanyId" style="display:none" asp-items="@Model.CompanyList" class="form-select">
+                            <option disabled selected>--Select Company--</option>
+                        </select>
+
+
+                        <span asp-validation-for="ApplicationUser.CompanyId" class="text-danger"></span>
+                    </div>
+                    <div class="col-12">
+                        <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+                    </div>
+
+                </form>
+            </div>
+          
+              
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function () {
+           $('#ApplicationUser_Role').change(function(){
+                var selectedRole = $('#ApplicationUser_Role Option:Selected').text();
+                if(selectedRole == "Company"){
+                     $('#ApplicationUser_CompanyId').show();
+                }else{
+                     $('#ApplicationUser_CompanyId').hide();
+                }
+           })
+        });
+    </script>
+}

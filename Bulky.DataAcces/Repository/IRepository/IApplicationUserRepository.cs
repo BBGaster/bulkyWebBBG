@@ -10,6 +10,8 @@ namespace Bulky.DataAcces.Repository.IRepository
 {
     public interface IApplicationUserRepository : IGenericRepository<ApplicationUser>
     {
-      
+        public void Update(ApplicationUser obj);
+
+
     }
 }
