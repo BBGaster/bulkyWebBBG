@@ -94,6 +94,7 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
                         foreach (var file in files)
 
                         {
+                            
 
                             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName); //Random name
 
@@ -101,7 +102,8 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
 
                             string finalPath = Path.Combine(wwwRootPath, productPath);
 
-                            if (!Directory.Exists(finalPath)) Directory.CreateDirectory(finalPath);
+                            if (!Directory.Exists(finalPath))
+                                Directory.CreateDirectory(finalPath);
 
                             //Aggiungi l'immagine
 
@@ -110,7 +112,6 @@ namespace bulkyWebBBG.Areas.Admin.Controllers
                             { file.CopyTo(fileStream); }
 
                             ProductImage productImage = new ProductImage()
-
                             {
 
                                 ImageUrl = @"\" + productPath + @"\" + fileName,
